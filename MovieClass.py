@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import itertools
 
 class MovieClass:
     def __init__(self, movieId = None, tmdbId = None):
@@ -68,10 +69,51 @@ class MovieClass:
         df3 = pd.read_csv('data_raw/credits.csv')
         return eval(df3.loc[df3.id == self.tmdbId].values[0][1])
 
+
+class MultiMovieClass:
+    def __init__(self, movieIdlist):
+        """
+        :param movieId: list
+        """
+        self.movieId_list = movieIdlist
+        self.imdbId_list = None
+        self.tmdbId_list = None
+        selt.__get_movies_id()
+
+    def __get_movies_id(self):
+        df = pd.read_csv('data_raw/links_small.csv')
+        temp_list = []
+        for i, id in enumerate(self.movieId_list):
+            imdbId = int(df.loc[df.movieId == id].values[0][1])
+            temp_list.append(imdbId)
+        self.tmdbId_list = temp_list
+
+    def get_keywords(self):
+        df1 = pd.read_csv('data_raw/keywords.csv')
+        temp_list = []
+        for i, id in enumerate(self.tmdbId_list):
+            key = []
+            for k in eval(df1.loc[df1.id == id].values[0][1]):
+                key.append(k['id'])
+        temp_list.append(key)
+        return temp_list
+
+    def get_Directors(self):
+        #get director list
+        df3 = pd.read_csv('data_raw/credits.csv')
+        temp_list = []
+        for i, id in enumerate(self.tmdbId_list):
+            for member in eval(df3.loc[df3.id == id].values[0][1]):
+                if member['department'] == 'Directing' and member['job'] == 'Director':
+                    temp_list.append(member['name'])
+        return temp_list
+
+
+
 if __name__ == "__main__":
-    movie = MovieClass(movieId = 1, tmdbId = None)
+    movie = MovieClass(movieId = 2, tmdbId = None)
     print(movie.get_keywords_info())
-    print(movie.tmdbId, movie.get_metadata_info())
+    # print(movie.tmdbId, movie.get_metadata_info())
     # print(movie.get_cast_info())
     # print(f'director:{movie.DirectorName}')
     # print(f'cast list:{movie.CastsList}')

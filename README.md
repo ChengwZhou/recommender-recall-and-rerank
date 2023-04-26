@@ -1,1 +1,1 @@
-# EE541-projrct-MovieRecommendationSystem
+# EE541-project-MovieRecommendationSystem

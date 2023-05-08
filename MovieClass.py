@@ -78,43 +78,69 @@ class MultiMovieClass:
         self.movieId_list = movieIdlist
         self.imdbId_list = None
         self.tmdbId_list = None
-        selt.__get_movies_id()
+        self.__get_movies_id()
 
     def __get_movies_id(self):
         df = pd.read_csv('data_raw/links_small.csv')
         temp_list = []
         for i, id in enumerate(self.movieId_list):
-            imdbId = int(df.loc[df.movieId == id].values[0][1])
-            temp_list.append(imdbId)
+            if not df.loc[df.movieId == id].isna().values.any():
+                tmdbId = int(df.loc[df.movieId == id].values[0][2])
+                temp_list.append(tmdbId)
+            else:
+                temp_list.append(-1)
         self.tmdbId_list = temp_list
+
 
     def get_keywords(self):
         df1 = pd.read_csv('data_raw/keywords.csv')
         temp_list = []
         for i, id in enumerate(self.tmdbId_list):
-            key = []
-            for k in eval(df1.loc[df1.id == id].values[0][1]):
-                key.append(k['id'])
-        temp_list.append(key)
+            key_list = []
+            if len(df1.loc[df1.id == id].values):
+                for key in eval(df1.loc[df1.id == id].values[0][1]):
+                    key_list.append(key['name'])
+            temp_list.append(key_list)
         return temp_list
 
-    def get_Directors(self):
+    def get_Directors_Casts(self):
         #get director list
         df3 = pd.read_csv('data_raw/credits.csv')
-        temp_list = []
+        #Directors
+        director_list = []
         for i, id in enumerate(self.tmdbId_list):
             for member in eval(df3.loc[df3.id == id].values[0][1]):
                 if member['department'] == 'Directing' and member['job'] == 'Director':
-                    temp_list.append(member['name'])
+                    director_list.append(member['id'])
+        #Casts
+        cast_list = []
+        for i, id in enumerate(self.tmdbId_list):
+            list = []
+            for member in eval(df3.loc[df3.id == id].values[0][0]):
+                list.append(member['id'])
+            list = list[:10] if len(list) > 10 else list
+            cast_list.append(list)
+        return director_list, cast_list
+
+    def get_movieid_from_tmdb_list(self, tmdb_list):
+        df = pd.read_csv('data_raw/links.csv')
+        temp_list = []
+        for i, id in enumerate(tmdb_list):
+            tmdbId = int(df.loc[df.tmdbId == id].values[0][0])
+            temp_list.append(tmdbId)
         return temp_list
 
 
 
 if __name__ == "__main__":
-    movie = MovieClass(movieId = 2, tmdbId = None)
-    print(movie.get_keywords_info())
-    # print(movie.tmdbId, movie.get_metadata_info())
-    # print(movie.get_cast_info())
-    # print(f'director:{movie.DirectorName}')
-    # print(f'cast list:{movie.CastsList}')
-    # print(f'keyword:{movie.keywordId}')
+    movies = MultiMovieClass([1,2,3])
+    # print(movies.tmdbId_list)
+    # print(movies.get_keywords())
+    print(movies.get_Directors_Casts())
+
+    # movie = MovieClass(movieId=1)
+    # # print(movie.tmdbId, movie.get_metadata_info())
+    # # print(movie.get_cast_info())
+    # # print(f'director:{movie.DirectorName}')
+    # print(f'cast list:{movie.get_cast_info()}')
+    # print(f'keyword:{movie.get_keywords_info()}')

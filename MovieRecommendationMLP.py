@@ -1,17 +1,13 @@
 import pandas as pd
 import numpy as np
-import gensim
-from gensim.models import Word2Vec
-
 
 import torch
 import torch.nn as nn
 import torch.utils.data as Data
 from MovieClass import MovieClass, MultiMovieClass
 
-
-
-
+import itertools
+from collections import Counter
 
 class MLP_3layer(nn.Module):
     def __init__(self, n_input, n_hidden1, n_hidden2):  # Define layers in the constructor
@@ -71,7 +67,7 @@ def train(model, epoch_num, trainloader, optimizer, loss_func):
         if epoch % 10 == 0:
             print(f'epoch:{epoch}, loss:{train_loss / train_num}')
 
-# def test(model, testloader, loss_func):
+# def test_model(model, testloader, loss_func):
 #     device = torch.device("cpu")
 #     model.eval()  # set model to evaluation mode
 #     running_loss = 0
@@ -100,6 +96,12 @@ def predict(model, testloader, loss_func):
     return prediction
 
 
+def find_top_view_movies():
+    #from full dataset
+    df = pd.read_csv('data_raw/ratings.csv')
+    top_view_movies = df.movieId.value_counts().index.values[:50]
+    return top_view_movies
+
 def get_label(df_recall, df_y):
     groudtruth = df_y.groupby('userId').movieId.apply(list).to_dict()
     label = []
@@ -113,10 +115,43 @@ def get_label(df_recall, df_y):
     return np.array(label)
 
 
+def get_recommedation(df, top_20_movies, top_view_movies):
+    movie_list = df.movieId.tolist()
+    unique_movie = list(dict.fromkeys(movie_list))
+    # gererate from movie2movie
+    recall_list1 = list(itertools.chain(*[top_20_movies[id] for id in unique_movie if id in top_20_movies]))
+    # add top_view_movies
+    recall_id = [i for i in recall_list1] + list(top_view_movies)
+
+    recall_id = [id for id, cnt in Counter(recall_id).most_common(40) if id not in unique_movie]
+    df_op = pd.DataFrame(recall_id)
+    return df_op
+
+def evaluate_output(df_output, df_y):
+    output = df_output.groupby('userId').movieId.apply(list).to_dict()
+    gt = df_y.groupby('userId').movieId.apply(list).to_dict()
+    acc = []
+    for userid, gt in gt.items():
+        cnt = 0
+        if not output.get(userid):
+            for i in output.get(userid):
+                if i in gt:
+                   cnt +=1
+        acc.append(min(cnt/len(gt), 1))
+    acc_res = np.mean(np.array(acc))
+    print('average accuracy on testdata{acc_res}')
+    return acc
+
+def df_covisitation_to_dict(df):
+    return df.groupby('movieId_x').movieId_y.apply(list).to_dict()
 
 if __name__ == "__main__":
+    df_X = pd.read_csv('data/users_history.csv')
     df_y = pd.read_csv('data/ground_truth.csv')
     df_recall = pd.read_csv('data/dataset_feature.csv')
+    df_cov = pd.read_csv('data/Movie2Movie.csv')
+    top_20_cov_movies = df_covisitation_to_dict(df_cov)
+    top_view_movies = find_top_view_movies()
     df_x = df_recall.iloc[:, 2:]
     label = get_label(df_recall, df_y)
 
@@ -137,5 +172,10 @@ if __name__ == "__main__":
     optimizer = torch.optim.SGD(model.parameters(), lr=1e-3, weight_decay=1e-4)
     criterion = nn.BCEWithLogitsLoss()
     train(model, 100, train_loader, optimizer, criterion)
-    test(model, test_loader, criterion)
     prediction = predict(model, test_loader, criterion)
+
+    df_output = df_X.groupby('userId').apply(lambda x: get_recommedation(x, top_20_cov_movies, top_view_movies))
+    df_output = df_output.reset_index('userId')
+    df_output.columns.values[1] = 'movieId'
+    evaluate_output(df_output, df_y)
+

@@ -6,7 +6,6 @@ import itertools
 from collections import Counter
 
 from MovieClass import MovieClass, MultiMovieClass
-from sklearn.model_selection import train_test_split
 from sklearn.metrics.pairwise import cosine_similarity
 
 
@@ -67,7 +66,8 @@ def bulid_recall_movie_feature(df, df_pop, model_wv, top_20_movies, top_view_mov
     recall_cnt = [i[1] for i in recall_list1] + [mean_cnt] * (len(recall_id) - len(recall_cnt))
 
     # user vector = mean of user history embeding
-    user_history_embedding = get_user_history_embedding(model_wv, movie_list)
+    # recall_id = movie_list
+    user_history_embedding = get_user_history_embedding(model_wv, recall_id)
     user_vector = np.mean(user_history_embedding, axis=0)
     user_variance = np.std(user_history_embedding, axis=0)
 
@@ -79,7 +79,7 @@ def bulid_recall_movie_feature(df, df_pop, model_wv, top_20_movies, top_view_mov
     pop_list = movie_popularity(recall_id, df_pop)
 
     df_recall = pd.concat(
-        [pd.DataFrame(recall_id), pd.DataFrame([user_vector] * len(recall_id)), pd.DataFrame(movie_vectors_list),
+        [pd.DataFrame(recall_id),pd.DataFrame([user_vector] * len(recall_id)), pd.DataFrame(movie_vectors_list),
          pd.DataFrame([user_variance] * len(recall_id)), pd.DataFrame(pop_list)], axis=1)
     return df_recall
 
@@ -104,10 +104,10 @@ def df_covisitation_to_dict(df):
 if __name__ == "__main__":
     #load data
     df_cov = pd.read_csv('data/Movie2Movie.csv')
-    df_X = pd.read_csv('data/users_history.csv')
+    df_X = pd.read_csv('data/dataset.csv')
     df_y = pd.read_csv('data/ground_truth.csv')
-    # df_dc = pd.read_csv('data/movie_director_casts.csv')
     df_pop = pd.read_csv('data/popularity.csv')
+    # df_dc = pd.read_csv('data/movie_director_casts.csv')
     # model_wv = Word2Vec.load("word2vec.model")
     model_wv = Word2Vec.load("word2vec_movie.model")
 
@@ -116,8 +116,10 @@ if __name__ == "__main__":
 
     df_recall = df_X.groupby('userId').apply(lambda x: bulid_recall_movie_feature(x, df_pop, model_wv, top_20_cov_movies, top_view_movies))
     df_recall = df_recall.reset_index('userId')
+
     # print(df_recall)
     df_recall.columns.values[1] = 'movieId'
+
     df_recall.to_csv('data/dataset_feature.csv')
     label = get_label(df_recall, df_y)
     df_x = df_recall.iloc[:, 2:]

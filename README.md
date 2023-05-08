@@ -2,7 +2,7 @@
 Plese following instructions and steps liseted below to run the prediction model
 
 ### Step-1: data pre-processing
-Please allocate all the raw dataset files into the directory: data_raw. 
+Please rellocate all the raw dataset files into the directory: data_raw. 
 
 Follow DatapreProcess.ipynb as instructions to save all the requiered processed dataset files and also a Word2Vec model, listing as follow:  
 

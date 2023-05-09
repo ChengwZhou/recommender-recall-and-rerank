@@ -19,4 +19,6 @@ Follow DatapreProcess.ipynb as instructions to save all the requiered processed 
 ### Step-2: build feature and model
 run GetRecallMovie.py and save feature datafile data/dataset_feature.csv
 
-Finally, run MovieRecommendationMLP.py
+Finally, run train_Resnet50.ipynb to train a ResNet50 model and then predict  
+
+or run MovieRecommendationMLP.py to train a MLP model and then predict

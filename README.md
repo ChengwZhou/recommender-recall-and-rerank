@@ -1,4 +1,4 @@
-# EE541-project-MovieRecommendationSystem
+# MovieRecommendationSystem
 Plese following instructions and steps liseted below to run the prediction model
 
 ### Step-1: data pre-processing

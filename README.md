@@ -18,7 +18,7 @@
 
 6. Model selection and training: Select appropriate machine learning and deep learning algorithms, split the data into training and testing sets, and train the models to make predictions. For the deep learning approach, we will perform reranking on the 100 movies recalled for each user. Ultimately, we will recommend the top 20 ranked movies to the users. 
 
-7. Model Evaluation and Comparison: Evaluate the performance of the trained models using appropriate metrics and compare their accuracy to determine the most suitable model for prediction. This step also involves fine-tuning the models to optimize their accuracy, as needed. In experiments, we find CNN modles(ResNet series) can reach best performance. And to measure the accuracy of the model, we consider top 20 highest scored predictions as the output, and use the valuation function: 
+7. Model Evaluation and Comparison: Evaluate the performance of the trained models using appropriate metrics and compare their accuracy to determine the most suitable model for prediction. This step also involves fine-tuning the models to optimize their accuracy, as needed. In experiments, we find CNN models(ResNet series) can reach best performance. And to measure the accuracy of the model, we consider top 20 highest scored predictions as the output, and use the valuation function: 
 
 <img width="822" alt="image" src="https://github.com/ChengwZhou/tmdbMovie_Recommendation_System/assets/131209977/fa3bd825-b9e6-4024-b598-a5e3a5bc64b4">
 

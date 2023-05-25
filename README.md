@@ -1,4 +1,4 @@
-# MovieRecommendationSystem
+# tmdbMovie Recommendation System
 
 ## The goals of this project are as follows: 
 
@@ -21,8 +21,8 @@ overview of recommendation system steps:
 <img width="770" alt="image" src="https://github.com/ChengwZhou/tmdbMovie_Recommendation_System/assets/131209977/04991a59-9674-4af8-a2d6-7e07c7d787e4">
 
 ## Dataset
-These files contain metadata for all 45,000 movies listed in the Full MovieLens Dataset[2]. The dataset consists of movies released on or before July 2017. Data points include cast, crew, plot keywords, budget, revenue, posters, release dates, languages, production companies, countries, TMDB vote counts and vote averages. This dataset also has files containing 26 million ratings from 270,000 users for all 45,000 movies. Ratings are on a scale of 1-5 and have been obtained from the official GroupLens website.
-Refer to the website for further dataset introduction: Kaggle.
+These files contain metadata for all 45,000 movies listed in the Full MovieLens Dataset. The dataset consists of movies released on or before July 2017. Data points include cast, crew, plot keywords, budget, revenue, posters, release dates, languages, production companies, countries, TMDB vote counts and vote averages. This dataset also has files containing 26 million ratings from 270,000 users for all 45,000 movies. Ratings are on a scale of 1-5 and have been obtained from the official GroupLens website.
+Refer to the website for further dataset introduction: https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?select=ratings_small.csv
 
 
 ## Plese following instructions and steps liseted below to run the prediction model 

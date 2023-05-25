@@ -8,11 +8,17 @@
 
 3.Build Recall System: get co-visitation matrix from the training set. Return recall movie as candidates. 
 
-3.Building Word Embedding Model: train Word2Vec model and use it to conduct feature engineering and users and the candidate movies. 
+3.Building Word Embedding Model: train Word2Vec model and use it to conduct feature engineering and users and the candidate movies. We used genism library to train Word2Vec model based on keyword of each movie. And we set up vector size as 32, window as 5 and training epoch as 30, then saved the model for future usage. In this way, we can compute movie vector by calculating the average of all the keywords of this movie, and also can get user’s historical embedding from calculating the average of all the movie vectors of individual’s rating history.
 
-3.Model selection and training: Select appropriate machine learning and deep learning algorithms, split the data into training and testing sets, and train the models to make predictions. For the deep learning approach, we will perform reranking on the 100 movies recalled for each user. Ultimately, we will recommend the top 20 ranked movies to the users. 
+4.Feature Engineering and Dimensionality Adjustment: We put great attention to capture appropriate features before feeding data to Machine Learning model. In this task, we explored the word embedding and used it on our model. All details of feature engineering of our task are shown in Table below. we considered the feature from both user and candidate movie aspects. Therefore, we chose similarity of user and candidate calculating by cosine distance as the first feature. Then, user vector and variance of user vector as feature 2 and feature 3, to separately indicate the user’s interest zone’s center and the width of it. And added with movie vector and movie popularity as feature 3 and feature 5. Finally, we have 98 dimensions of feature for each recall movies in total.  
 
-4.Model Evaluation and Comparison: Evaluate the performance of the trained models using appropriate metrics and compare their accuracy to determine the most suitable model for predicting players’ performance. This step also involves fine-tuning the models to optimize their accuracy, as needed. And to measure the accuracy of the model, we consider top 20 highest scored predictions as the output, and use the valuation function: 
+<img width="795" alt="image" src="https://github.com/ChengwZhou/tmdbMovie_Recommendation_System/assets/131209977/aac15943-d5ad-48cd-9982-f7095585c4c0">
+
+As we have so many dimensions of feature to considered when preform machine learning, we conducted PCA process to reduce the feature dimension to lower the degree. In this way, the dataset can be more separable and is capable to speed up the model processing.
+
+5.Model selection and training: Select appropriate machine learning and deep learning algorithms, split the data into training and testing sets, and train the models to make predictions. For the deep learning approach, we will perform reranking on the 100 movies recalled for each user. Ultimately, we will recommend the top 20 ranked movies to the users. 
+
+6.Model Evaluation and Comparison: Evaluate the performance of the trained models using appropriate metrics and compare their accuracy to determine the most suitable model for predicting players’ performance. This step also involves fine-tuning the models to optimize their accuracy, as needed. And to measure the accuracy of the model, we consider top 20 highest scored predictions as the output, and use the valuation function: 
 
 <img width="822" alt="image" src="https://github.com/ChengwZhou/tmdbMovie_Recommendation_System/assets/131209977/fa3bd825-b9e6-4024-b598-a5e3a5bc64b4">
 

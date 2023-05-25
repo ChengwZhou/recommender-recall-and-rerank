@@ -1,6 +1,6 @@
 # tmdbMovie Recommendation System
 
-## The goals of this project are as follows: 
+## The goals of this project are as follow: 
 
 1. Data preprocessing and feature engineering: Clean and prepare the dataset for analysis, identify relevant features, and potentially create new ones to improve model performance. 
 

@@ -68,7 +68,7 @@ python GetRecallMovie.py
 
 Train a ResNet50 model and then predict (recommended),
 ```
-python train_Resnet50.ipynb
+train_Resnet50.ipynb
 ```
 
 or train a MLP model and then predict.

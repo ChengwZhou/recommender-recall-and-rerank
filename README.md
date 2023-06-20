@@ -1,4 +1,7 @@
 # tmdbMovie Recommendation System
+Building a movie recommendation system, using machine learning algorithms to analyze users' past rating history and recommend new movies for them based on both movie and users' features.
+
+Dual contributors: @RayJiazy @ChengwZhou
 
 ## Procedures and Contributions: 
 

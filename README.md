@@ -2,9 +2,9 @@
 
 ## Procedures and Contributions: 
 
-* Data preprocessing and feature engineering: Clean and prepare the dataset for analysis, identify relevant features, and potentially create new ones to improve model performance. 
+* Data preprocessing and feature engineering: clean and prepare the dataset for analysis, identify relevant features, and potentially create new ones to improve model performance. 
 
-* Exploratory Data Analysis (EDA): Analyze the dataset to gain insights into player performance trends and relationships between various features. 
+* Exploratory Data Analysis (EDA): analyze the dataset to gain insights into player performance trends and relationships between various features. 
 
 * Build Recall System: get co-visitation matrix from the training set. Return recall movie as candidates. 
 
@@ -12,9 +12,9 @@
 
 * Feature Engineering: we considered the feature from both user and candidate movie aspects. The similarity of user and candidate calculating by cosine distance is the first feature. And user vector and variance of user vector are feature 2 and feature 3, to separately indicate the user’s interest zone’s center and the width of it, added with movie vector and movie popularity as feature 3 and feature 5. Totally, we have 98 dimensions of feature for each recall movies.
 
-* Model selection and training: Select appropriate machine learning and deep learning algorithms, split the data into training and testing sets, and train the models to make predictions. For the deep learning approach, we will perform reranking on the 100 movies recalled for each user. Ultimately, we will recommend the top 20 ranked movies to the users. 
+* Model selection and training: select appropriate machine learning and deep learning algorithms, split the data into training and testing sets, and train the models to make predictions. For the deep learning approach, we will perform reranking on the 100 movies recalled for each user. Ultimately, we will recommend the top 20 ranked movies to the users. 
 
-* Evaluation and Model Comparison: Evaluate the performance of the trained models using appropriate metrics and compare their accuracy to determine the most suitable model for prediction. This step also involves fine-tuning the models to optimize their accuracy, as needed. In experiments, we find CNN models(ResNet series) can reach best performance. And to measure the accuracy of the model, we consider top 20 highest scored predictions as the output, and use the valuation function: 
+* Evaluation and Model Comparison: in experiments, we find CNN models(ResNet series) can reach best performance. And to measure the accuracy of the model, we consider top 20 highest scored predictions as the output, and use the valuation function: 
 
 $$
 P = \frac{|prediction \cap groundtruth|}{\min(20, |groundtruth|)}

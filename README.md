@@ -1,9 +1,12 @@
 # tmdbMovie Recommendation System
 Building a movie recommendation system, using machine learning algorithms to analyze users' past rating history and recommend new movies for them based on both movie and users' features.
 
-Dual contributors: [@RayJiazy](https://github.com/RayJiazy) [@ChengwZhou](https://github.com/ChengwZhou)
-Frontend Repo:[frontend-movieweb](https://github.com/ChengwZhou/frontend-movieweb)
-Backend Repo:[backend-movieweb](https://github.com/RayJiazy/MoviesystemBackend)
+Dual contributors: [@RayJiazy](https://github.com/RayJiazy) [@ChengwZhou](https://github.com/ChengwZhou)  
+
+Frontend Repo:[frontend-movieweb](https://github.com/ChengwZhou/frontend-movieweb)  
+
+Backend Repo:[backend-movieweb](https://github.com/RayJiazy/MoviesystemBackend)  
+
 
 ## Procedures and Contributions: 
 
